@@ -73,9 +73,9 @@ steps:
         source: "#synapseConfig"
       - id: log_file
         source: "#score/log_file"
-      # synapse id of the detail log_file store folder
+      # TODO synapse id of the detail log_file store folder
       - id: upload_folder_id
-        valueFrom: "syn66492705"
+        valueFrom: "syn74297844"
       - id: file_name
         source: "#submissionId"
     out: []

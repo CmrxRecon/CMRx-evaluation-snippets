@@ -1,0 +1,2 @@
+FROM dev.passer.zyheal.com:8087/playground/cmrxrecon2026-validation:rc.2
+COPY *.py /app/
