@@ -1,5 +1,7 @@
 FROM dev.passer.zyheal.com:8087/playground/cmrxrecon2025-validation:gt.v2
-COPY ./ChallengeData_FlowVN/ /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_FlowVN/
-COPY ./ChallengeData_GT /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT/
-pip3 install -r /app/requirements.txt
+COPY data/ChallengeData_FlowVN/ /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_FlowVN/
+COPY data/ChallengeData_GT/ /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT/
+COPY data/ChallengeData_EMPTY/ /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY/
+COPY requirements.txt /app/
 COPY *.py /app/
+RUN pip3 install -r /app/requirements.txt

@@ -637,6 +637,7 @@ def main():
                 os.path.abspath(args.flowvn_dir) if args.flowvn_dir else None
             ),
         )
+        os.system(f'zip -r better_log.zip {output_dir}/Result/*')
     finally:
         if temp_dir_to_cleanup is not None:
             shutil.rmtree(temp_dir_to_cleanup, ignore_errors=True)

@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: Workflow
 label: Task1-Multi-contrast
 doc: >
-  For CMRxRecon validation
+  For CMRx4DFlow 2026 validation
 
 requirements:
   - class: StepInputExpressionRequirement
@@ -31,7 +31,7 @@ steps:
         source: "#submitterUploadSynId"
       # TODO: replace `valueFrom` with the admin user ID or admin team ID
       - id: principalid
-        valueFrom: "3533218" 
+        valueFrom: "3466681" 
       - id: permissions
         valueFrom: "download"
       - id: synapse_config
