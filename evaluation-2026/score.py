@@ -232,7 +232,6 @@ def extract_to_temp(input_path: str, output_dir: str) -> Tuple[str, Optional[str
             # assume zip file
             with zipfile.ZipFile(input_path, "r") as z:
                 z.extractall(temp_dir)
-            raise RuntimeError(f"Unsupported archive type: {input_path}")
     except Exception:
         shutil.rmtree(temp_dir, ignore_errors=True)
         raise
@@ -563,7 +562,7 @@ def run_task(
     #     json_summary.pop(f"{overall_label}_{met}_adj", None)
     # if task == "R2":
     #     json_summary.pop(f"{overall_label}_BetterThanFlowVN", None)
-    json_path = os.path.join(result_root, f"results_{task}.json")
+    json_path = os.path.join(result_root, f"results.json")
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(json_summary, f, indent=2, ensure_ascii=False)
 

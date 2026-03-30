@@ -31,20 +31,20 @@ outputs:
       outputEval: $(JSON.parse(self[0].contents)['submission_status'])
       loadContents: true
 
-baseCommand: ["python3", "/app/Val_Score2025.py"]
+baseCommand: ["python3", "/app/score.py"]
 arguments:
   - prefix: -i
     valueFrom: $(inputs.input_file.path)
   - prefix: -g
-    valueFrom: /SSDHome/share/GroundTruth_for_Validation
+    valueFrom: /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT/
   - prefix: -t
-    valueFrom: TaskS1
+    valueFrom: S1
     # 此处根据task1还是task2来指定
+  - prefix: -x
+    valueFrom: /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY
   - prefix: -o
     valueFrom: ./
-  - prefix: -e
-    valueFrom: /SSDHome/home/huangmk/evaluation_platform/evaluation-2025/CMRxRecon2025_ValidationData_TaskR1_TaskR2_Disease_Info.xlsx
 
 hints:
   DockerRequirement:
-    dockerPull: dev.passer.zyheal.com:8087/playground/cmrxrecon2025-validation:latest
+    dockerPull: dev.passer.zyheal.com:8087/playground/cmrxrecon2026-validation:latest

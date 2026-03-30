@@ -2,7 +2,7 @@
 
 cwlVersion: v1.0
 class: Workflow
-label: Task1-Multi-contrast
+label: For regular Task1
 doc: >
   For CMRx4DFlow 2026 validation
 
@@ -75,7 +75,7 @@ steps:
         source: "#score/log_file"
       # TODO synapse id of the detail log_file store folder
       - id: upload_folder_id
-        valueFrom: "syn74297844"
+        valueFrom: "syn74297869"
       - id: file_name
         source: "#submissionId"
     out: []

@@ -19,7 +19,7 @@ outputs:
   - id: results
     type: File
     outputBinding:
-      glob: Result/results_R1.json
+      glob: Result/results.json
   - id: log_file
     type: File
     outputBinding:
