@@ -1,14 +1,14 @@
-FROM dev.passer.zyheal.com:8087/playground/cmrxrecon2024-validation:debug1
+FROM dev.passer.zyheal.com:8087/playground/cmrxrecon2025-validation:gt
 
 COPY data/GroundTruth_for_Validation /SSDHome/share/GroundTruth_for_Validation
 COPY data/CMRxRecon2025_ValidationData_TaskR1_TaskR2_Disease_Info.xlsx /SSDHome/home/huangmk/evaluation_platform/evaluation-2025/CMRxRecon2025_ValidationData_TaskR1_TaskR2_Disease_Info.xlsx
 
 # RUN pip install nibabel medpy rarfile 
-WORKDIR /app
-COPY *.py /app/
-COPY requirements.txt /app/
-RUN apt update && apt install -y zip && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
-    numpy h5py scipy pandas rarfile scikit-image nibabel synapseclient \
-    && pip install -r requirements.txt
+# WORKDIR /app
+# COPY *.py /app/
+# COPY requirements.txt /app/
+# RUN apt update && apt install -y zip && pip install -i https://pypi.tuna.tsinghua.edu.cn/simple \
+#     numpy h5py scipy pandas rarfile scikit-image nibabel synapseclient \
+#     && pip install -r requirements.txt
 # RUN chmod +x /usr/local/bin/*.py
 # RUN cd /usr/local/bin/

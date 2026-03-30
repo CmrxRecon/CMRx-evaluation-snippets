@@ -1,0 +1,11 @@
+-i https://pypi.tuna.tsinghua.edu.cn/simple
+numpy
+pandas
+h5py
+hdf5storage
+scipy
+scikit-image
+einops
+xlsxwriter
+rarfile
+torch

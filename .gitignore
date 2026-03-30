@@ -4,3 +4,4 @@ results.json
 *.json
 *.zip
 tmp-dir
+tmp
