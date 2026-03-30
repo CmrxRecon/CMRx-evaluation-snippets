@@ -185,10 +185,6 @@ def extract_to_temp(input_path: str, output_dir: str) -> Tuple[str, Optional[str
         return input_path, None
     if not os.path.isfile(input_path):
         raise RuntimeError(f"--input not found: {input_path}")
-    if not _is_archive(input_path):
-        raise RuntimeError(
-            f"--input is not a directory and not a supported archive: {input_path}"
-        )
 
     temp_base = os.path.join(output_dir, "temp")
     os.makedirs(temp_base, exist_ok=True)
