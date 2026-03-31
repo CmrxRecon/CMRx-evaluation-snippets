@@ -44,7 +44,7 @@ arguments:
     valueFrom: /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY
   - prefix: -o
     valueFrom: ./
-  - prefix: --flow_dir
+  - prefix: --flowvn_dir
     valueFrom: /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_FlowVN/
 
 hints:

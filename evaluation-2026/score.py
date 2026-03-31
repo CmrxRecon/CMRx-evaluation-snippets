@@ -664,7 +664,7 @@ python Val_Score2026_v2.py \
 
 # Task S1
 python Val_Score2026_v2.py \
-    -i //mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_FlowVN/Submission_TaskS1_ValidationSet.zip \
+    -i /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_FlowVN/Submission_TaskS1_ValidationSet.zip \
     -t S1 \
     -g /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT/ \
     -x /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY \
@@ -672,7 +672,7 @@ python Val_Score2026_v2.py \
 
 # Task S2
 python Val_Score2026_v2.py \
-    -i //mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_FlowVN/Submission_TaskS2_ValidationSet.zip \
+    -i /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_FlowVN/Submission_TaskS2_ValidationSet.zip \
     -t S2 \
     -g /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT/ \
     -x /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY \
