@@ -54,7 +54,7 @@ steps:
       - id: results
 
   score:
-    run: steps/score-task-s1.cwl
+    run: steps/score-task1.cwl
     in:
       - id: input_file
         source: "#download_submission/filepath"

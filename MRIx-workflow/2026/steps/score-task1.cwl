@@ -36,15 +36,13 @@ arguments:
   - prefix: -i
     valueFrom: $(inputs.input_file.path)
   - prefix: -g
-    valueFrom: /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT/
+    valueFrom: /home/mf_test/ssd2/mrixfields2026/val_gt_norelease_20260505/Validating_prospective_pack1_ground_truth/task1
   - prefix: -t
-    valueFrom: R1
+    valueFrom: task1
     # 此处根据task1还是task2来指定
   - prefix: -o
     valueFrom: ./
-  - prefix: -x
-    valueFrom: /mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY
 
 hints:
   DockerRequirement:
-    dockerPull: dev.passer.zyheal.com:8087/playground/cmrxrecon2026-validation:latest
+    dockerPull: dev.passe.zyheal.com/playground/mrix2026-validation:latest
