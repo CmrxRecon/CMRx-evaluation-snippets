@@ -55,7 +55,7 @@ steps:
 
   score:
     # TODO update the .cwl path
-    run: steps/score-task1.cwl
+    run: steps/score-task2.cwl
     in:
       - id: input_file
         source: "#download_submission/filepath"
@@ -76,7 +76,7 @@ steps:
         source: "#score/log_file"
       # TODO synapse id of the detail log_file store folder
       - id: upload_folder_id
-        valueFrom: "syn74893193"
+        valueFrom: "syn74893196"
       - id: file_name
         source: "#submissionId"
     out: []
