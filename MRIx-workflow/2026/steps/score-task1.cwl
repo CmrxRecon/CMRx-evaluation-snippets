@@ -45,4 +45,4 @@ arguments:
 
 hints:
   DockerRequirement:
-    dockerPull: dev.passe.zyheal.com/playground/mrix2026-validation:latest
+    dockerPull: dev.passer.zyheal.com/playground/mrix2026-validation:latest
