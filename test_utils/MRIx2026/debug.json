@@ -1,0 +1,35 @@
+{
+    "meta": {
+        "mode": "debug",
+        "competition": "MRIx2026"
+    },
+    "tasks":[
+        {
+            "task_type": "Task1",
+            "paths": {
+                "input": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task1/input/",
+                "output": "/mnt/HDD1_P1/guanli/MRIx2026/test-debug",
+                "ground_truth": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task1/gt",
+                "gt_seg": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task1/gt_seg"
+            }
+        },
+        {
+            "task_type": "Task2",
+            "paths": {
+                "input": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task2/input/",
+                "output": "/mnt/HDD1_P1/guanli/MRIx2026/test-debug",
+                "ground_truth": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task2/gt",
+                "gt_seg": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task2/gt_seg"
+            }
+        },
+        {
+            "task_type": "Task3",
+            "paths": {
+                "input": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task3/input/",
+                "output": "/mnt/HDD1_P1/guanli/MRIx2026/test-debug",
+                "ground_truth": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task3/gt",
+                "gt_seg": "/mnt/HDD1_P1/guanli/inhouse_test1_20260721/task3/gt_seg"
+            }
+        }
+  ]
+}

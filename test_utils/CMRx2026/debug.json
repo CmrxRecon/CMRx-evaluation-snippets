@@ -1,0 +1,44 @@
+{
+    "meta": {
+        "mode": "debug",
+        "competition": "CMRx2026"
+    },
+    "tasks": [
+        {
+            "task_type": "Task Regular1",
+            "paths": {
+                "input": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_DEMO/R1R2-debug-input",
+                "output": "/mnt/HDD1_P1/guanli/CMRx2026/test-debug",
+                "empty": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY/",
+                "ground_truth": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT"
+            }
+        },
+        {
+            "task_type": "Task Regular2",
+            "paths": {
+                "input": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_DEMO/R1R2-debug-input",
+                "output": "/mnt/HDD1_P1/guanli/CMRx2026/test-debug",
+                "empty": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY/",
+                "ground_truth": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT"
+            }
+        },
+        {
+            "task_type": "Task Special1",
+            "paths": {
+                "input": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_DEMO/S1-debug-input",
+                "output": "/mnt/HDD1_P1/guanli/CMRx2026/test-debug",
+                "empty": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY/",
+                "ground_truth": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT"
+            }
+        },
+        {
+            "task_type": "Task Special2",
+            "paths": {
+                "input": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_DEMO/S2-debug-input",
+                "output": "/mnt/HDD1_P1/guanli/CMRx2026/test-debug",
+                "empty": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_EMPTY/",
+                "ground_truth": "/mnt/nas/nas3/openData/rawdata/4dFlow/ChallengeData_GT"
+            }
+        }
+    ]
+}
