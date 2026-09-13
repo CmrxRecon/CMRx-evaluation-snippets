@@ -6,7 +6,7 @@
 --write: 用于控制是否回写json
 
 example:
-python mark_latest.py --write /app/test_utils/CMRx2026/submission/json
+python mark_latest.py --write /app/test_utils/CMRx2026/
 
 - 先读取目录下的所有json文件
 - 然后获取所有的唯一组合：(type, team_name)
@@ -38,7 +38,8 @@ def mark_latest(submissions):
     """按 (type, team_name) 分组，每组按 uid 升序（uid 随时间递增），将 uid 最大的记录标记为 is_latest=True"""
     groups = {}
     for sub in submissions:
-        key = (sub.get("type"), sub.get("team_name"))
+        key = (sub.get("type"), sub.get("email"))
+        # key = (sub.get("type"), sub.get("team_name"))
         groups.setdefault(key, []).append(sub)
 
     for group in groups.values():
@@ -71,6 +72,14 @@ def write_back(groups):
                 json.dump({k: v for k, v in sub.items() if not k.startswith("_")},
                           f, ensure_ascii=False, indent=4)
 
+def print_is_latest(input_dir):
+    submissions = load_submissions(input_dir)
+    # 按照uid排序
+    submissions.sort(key=lambda x: x['uid'])
+    for submission in submissions:
+        print(f"{submission['uid']} {submission['email']}")
+    for submission in submissions:
+        print(f"{submission['uid']} {submission['is_latest']}")
 
 def main():
     parser = argparse.ArgumentParser(description="标记每个 (type, team_name) 组合中的最新提交")
@@ -97,6 +106,9 @@ def main():
     if args.write:
         write_back(groups)
         print(f"已将 is_latest 标记写回 {len(submissions)} 个 json 文件")
+
+    ## Added By Daryl.Xu
+    print_is_latest(input_dir)
 
 
 if __name__ == "__main__":

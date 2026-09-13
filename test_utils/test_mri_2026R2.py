@@ -2,11 +2,10 @@
 执行命令 python run.py CMRx2026/test.json <显卡编号0-3> <submission-json> 可以执行测试。
 
 submission json存放在 /app/test_utils/CMRx2026/submission/json 目录下
-我现在有4张显卡，0，1，2用于测试各提交，3预留着用于debug，给我测试所有 is_latest=True, type != "Task Regular2" 的提交.
+我现在有4张显卡，测试只允许使用1张显卡，给我测试所有 is_latest=True, type == "Task Regular2" 的提交.
 
 
 - 每次提交时独占一张显卡
-- 在提交前要检查下该显卡的显存情况，如果显存占用超过1GB，则等待释放，并输出日志提醒
 - 按uid顺序对任务进行测试
 - 开始测试时打印出正在测试哪个队伍、使用哪张显卡、提交的uid
 - 结束时打印出队伍测试消耗的时间和uid和队伍名
@@ -28,8 +27,8 @@ BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_TASK_DESCRIBE = BASE_DIR / "CMRx2026" / "test.json"
 DEFAULT_SUBMISSION_DIR = BASE_DIR / "CMRx2026" / "submission" / "json"
 DEFAULT_RUN_PY = BASE_DIR / "run.py"
-DEFAULT_GPU_IDS = "0,1,2"   # 3 张显卡用于测试
-DEFAULT_DEBUG_GPU = "3"     # 预留 1 张用于 debug
+DEFAULT_GPU_IDS = "0"       # 仅使用 1 张显卡用于测试
+DEFAULT_DEBUG_GPU = "1,2,3"  # 其余 3 张不参与测试
 GPU_MEM_THRESHOLD_MB = 1024  # 显存占用阈值（1GB）
 GPU_CHECK_INTERVAL = 5       # 显存检查间隔（秒）
 
@@ -85,7 +84,7 @@ def wait_for_gpu_free(gpu_id, stop_event):
 
 
 def load_submissions(submission_dir):
-    """读取目录下所有 json，筛选 is_latest=True 且 type != 'Task Regular2' 的提交"""
+    """读取目录下所有 json，筛选 is_latest=True 且 type == 'Task Regular2' 的提交"""
     selected = []
     for path in sorted(Path(submission_dir).glob("*.json")):
         try:
@@ -96,7 +95,7 @@ def load_submissions(submission_dir):
             continue
         if not data.get("is_latest"):
             continue
-        if data.get("type") == "Task Regular2":
+        if data.get("type") != "Task Regular2":
             continue
         data["_file"] = str(path)
         selected.append(data)
@@ -129,16 +128,16 @@ def run_one(sub, gpu_id, task_describe, run_py):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="并发测试所有 is_latest=True 且非 Task Regular2 的提交")
+    parser = argparse.ArgumentParser(description="测试所有 is_latest=True 且 type 为 Task Regular2 的提交")
     parser.add_argument("--task-describe", default=str(DEFAULT_TASK_DESCRIBE),
                         help="任务描述 json（默认 CMRx2026/test.json）")
     parser.add_argument("--submission-dir", default=str(DEFAULT_SUBMISSION_DIR),
                         help="提交 json 目录（默认 CMRx2026/submission/json）")
     parser.add_argument("--run-py", default=str(DEFAULT_RUN_PY), help="run.py 路径")
     parser.add_argument("--gpu-ids", default=DEFAULT_GPU_IDS,
-                        help="用于测试的显卡编号，逗号分隔（默认 0,1,2）")
+                        help="用于测试的显卡编号，逗号分隔（默认 0，仅用 1 张）")
     parser.add_argument("--debug-gpu", default=DEFAULT_DEBUG_GPU,
-                        help="预留用于 debug 的显卡编号（默认 3，不参与测试）")
+                        help="不参与测试的显卡编号（默认 1,2,3）")
     args = parser.parse_args()
 
     gpu_ids = [g.strip() for g in args.gpu_ids.split(",") if g.strip()]
@@ -148,7 +147,7 @@ def main():
 
     submissions = load_submissions(args.submission_dir)
     if not submissions:
-        print(f"[warn] 没有符合条件的提交（is_latest=True 且 type != 'Task Regular2'）: {args.submission_dir}",
+        print(f"[warn] 没有符合条件的提交（is_latest=True 且 type == 'Task Regular2'）: {args.submission_dir}",
               file=sys.stderr)
         sys.exit(1)
 

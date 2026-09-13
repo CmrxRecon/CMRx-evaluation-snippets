@@ -2,8 +2,10 @@ import json
 
 
 UNKNOWN = 'unknown'
+INFERING = 'infering'
 INFERED = 'infered'
 SCORED = 'scored' 
+DEBUGING = 'debuging'
 NOTIFIED = 'notified'
 
 

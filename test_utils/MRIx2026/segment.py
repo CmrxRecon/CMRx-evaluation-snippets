@@ -30,6 +30,9 @@ import sys
 import argparse
 from pathlib import Path
 
+import nibabel as nib
+from nibabel.processing import resample_from_to
+
 # ---------------------------------------------------------------------------
 #  Environment: load .env from repo root
 # ---------------------------------------------------------------------------
@@ -131,6 +134,15 @@ def run_synthseg(nifti_path, output_path, synthseg_dir: Path):
         cropping=None,
         topology_classes=str(labels_dir / "synthseg_topological_classes_2.0.npy"),
     )
+
+    # SynthSeg 2.0 always resamples the input to 1mm isotropic and saves the
+    # segmentation at that resolution, never back to the native grid. Resample
+    # it back to the input grid (nearest-neighbour to preserve label values)
+    # so the output has the same shape/affine as the input image.
+    orig_img = nib.load(str(nifti_path))
+    seg_img = nib.load(str(output_path))
+    seg_back = resample_from_to(seg_img, orig_img, order=0)
+    nib.save(seg_back, str(output_path))
 
 
 # ---------------------------------------------------------------------------

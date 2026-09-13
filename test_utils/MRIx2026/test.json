@@ -1,6 +1,6 @@
 {    
     "meta": {
-        "mode": "debug",
+        "mode": "test",
         "competition": "MRIx2026"
     },
     "tasks":[
@@ -8,45 +8,48 @@
         "task_type": "Task1",
         "static_mounts": [
             {
-                "host_path": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task1/input/",
+                "host_path": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task1/input/",
                 "rw": "ro"
             }
         ],
         "paths": {
-            "input": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task1/input/",
+            "input": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task1/input/",
             "output": "/mnt/HDD1_P1/guanli/MRIx2026/test-phase",
-            "ground_truth": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task1/gt",
-            "gt_seg": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task1/gt_seg"
+            "ground_truth": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task1/gt",
+            "gt_seg": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task1/gt_seg",
+            "pack_root": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713"
         }
     },
     {
         "task_type": "Task2",
         "static_mounts": [
             {
-                "host_path": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task2/input/",
+                "host_path": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task2/input/",
                 "rw": "ro"
             }
         ],
         "paths": {
-            "input": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task2/input/",
+            "input": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task2/input/",
             "output": "/mnt/HDD1_P1/guanli/MRIx2026/test-phase",
-            "ground_truth": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task2/gt",
-            "gt_seg": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task2/gt_seg"
+            "ground_truth": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task2/gt",
+            "gt_seg": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task2/gt_seg",
+            "pack_root": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713"
         }
     },
     {
         "task_type": "Task3",
         "static_mounts": [
             {
-                "host_path": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task3/input/",
+                "host_path": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task3/input/",
                 "rw": "ro"
             }
         ],
         "paths": {
-            "input": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task3/input/",
+            "input": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task3/input/",
             "output": "/mnt/HDD1_P1/guanli/MRIx2026/test-phase",
-            "ground_truth": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task3/gt",
-            "gt_seg": "/mnt/HDD1_P1/guanli/inhouse_test20_20260713/task3/gt_seg"
+            "ground_truth": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task3/gt",
+            "gt_seg": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713/task3/gt_seg",
+            "pack_root": "/mnt/SSD1_P1/MRIx2026/inhouse_test20_20260713"
         }
     }]
 }

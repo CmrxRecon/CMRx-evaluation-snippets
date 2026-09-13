@@ -3,7 +3,7 @@
 
 使用方式：python pull_all.py <input_dir> [--concurrency 4] [--retry 1] [--dry-run]
 example:
-python pull_all.py /app/test_utils/CMRx2026/submission/json
+python pull_all.py /app/test_utils/CMRx2026/submissions
 
 前置条件：先运行 mark_latest.py --write <input_dir> 生成 is_latest 标记
 - 读取目录下的所有json文件，仅提取 is_latest=True 提交的 image 字段并去重
@@ -20,19 +20,21 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
-PULL_TIMEOUT = 3600  # 单个镜像拉取超时时间（秒）
+PULL_TIMEOUT = 7200  # 单个镜像拉取超时时间（秒）
 print_lock = threading.Lock()
 
 
 def load_images(input_dir):
     """读取目录下所有 json 文件，仅提取 is_latest=True 记录的 image 字段（去重）
 
+    is_latest=False 的提交直接跳过，不拉取；缺失 is_latest 字段的文件同样跳过并警告。
     返回 (去重后的镜像列表, image -> 关联 uid 列表 的映射)
     """
     images = []
     image_uids = {}
     seen = set()
     missing_flag = 0
+    skipped_uids = []
     for path in sorted(Path(input_dir).glob("*.json")):
         try:
             with open(path, "r", encoding="utf-8") as f:
@@ -44,6 +46,9 @@ def load_images(input_dir):
             missing_flag += 1
             continue
         if not data.get("is_latest"):
+            uid = data.get("uid")
+            if uid is not None:
+                skipped_uids.append(uid)
             continue
         image = data.get("image")
         if not image:
@@ -57,6 +62,11 @@ def load_images(input_dir):
     if missing_flag:
         print(
             f"[warn] 有 {missing_flag} 个文件缺少 is_latest 字段（请先运行 mark_latest.py --write），已跳过",
+            file=sys.stderr,
+        )
+    if skipped_uids:
+        print(
+            f"[info] 跳过 {len(skipped_uids)} 个非最新提交（is_latest=False），不拉取: uid={','.join(str(u) for u in sorted(skipped_uids))}",
             file=sys.stderr,
         )
     return images, image_uids

@@ -1,3 +1,9 @@
 [submodule "modules/t4u"]
 	path = modules/t4u
 	url = https://gitee.com/passer-team/t4u.git
+[submodule "score-status-dashboard/mrixfields.github.io"]
+	path = score-status-dashboard/mrixfields.github.io
+	url = git@github.com:MRIxFields/mrixfields.github.io.git
+[submodule "test_utils/t4u"]
+	path = test_utils/t4u
+	url = git@github.com:ziqiangxu/t4u.git

@@ -1,3 +1,4 @@
+from ast import Not, arg
 from datetime import datetime
 import docker
 import os
@@ -8,10 +9,85 @@ from docker.types.containers import DeviceRequest
 
 import status
 from t4u import file_tree
-from competition import SubmissionHandler, ExecutationRequest
-from mrix2026 import MRIx2026Handler
+
 
 logger = logging.getLogger(__name__)
+
+
+class ExecutationRequest:
+    def __init__(self, request: dict) -> None:
+        self.workplace = ''
+        self._data = request
+        r = request
+        self.uid = r['uid']
+        self.type = r['type']
+        self.image = r['image']
+        self.team_name = r['team_name']
+        self.email = r['email']
+        self.synapse_address = r['synapse_address'],
+        # 后期加入的字段
+        self.is_latest = r.get('is_latest')
+        self.comment = r.get('comment')
+
+    def json(self):
+        return self._data
+
+    @property
+    def output_path(self):
+        return os.path.join(self.workplace, 'infer')
+
+    @property
+    def infer_path(self):
+        return os.path.join(self.workplace, 'infer')
+
+    @property
+    def score_path(self):
+        return os.path.join(self.workplace, 'score')
+
+    def rel_path(self, p: str):
+        return os.path.join(self.workplace, p)
+
+class SubmissionHandler:
+    def __init__(self, competition_name: str, submission_json: str) -> None:
+        self.competition_name = competition_name
+        self.submission_json = submission_json
+
+    def score_check(self, r: ExecutationRequest):
+        assert r.rel_path('score/Result/resuts.json')
+
+
+class MRIx2026Handler(SubmissionHandler):
+    def __init__(self, competition_name: str, submission_json: str) -> None:
+        super().__init__(competition_name, submission_json)
+        self.r = None
+        # TODO 自动根据 submission_json 加载
+
+    def score_check(self, r: ExecutationRequest):
+        assert r.rel_path('score/Result/resuts.json')
+    
+    def dedicate_check_score(self, r: ExecutationRequest):
+        """
+        预处理动作
+        for i in `seq 1 130`;do echo Checking $i;python3 run_debug.py --action=check_score MRIx2026/test.json 0 MRIx2026/submissions/$i.json; done
+        """
+
+        resuslt_path = r.rel_path('score/Result/results.json')
+        if r.type != 'Task3' and os.path.exists(resuslt_path):
+            # 检查 Avg_T1W_Dice_adj
+            results = json.loads(open(resuslt_path).read())
+            t1w_dice = results.get('Avg_T1W_Dice_adj', None)
+            submission = json.loads(open(args.submission_json).read())
+            if t1w_dice is not None and t1w_dice < 0.3:
+                print(f"----- {r.uid}--{r.is_latest} {resuslt_path} ------")
+                print(f"----- {args.submission_json} {submission.get('comment')} ------")
+                print(r.email)
+                print(f'MRIx2026 test phase submission {r.uid} feedback')
+                print(f"Hi {r.team_name},\n")
+                print(f"Your score metric `'Avg_T1W_Dice_adj': {results['Avg_T1W_Dice_adj']}` is abnormal. This is most likely caused by a coordinate system issue. Please fix it and resubmit as soon as possible.")
+                print(submission)
+                print("-----------\n\n")
+                return False
+        return True
 
 
 client = docker.from_env()
@@ -135,12 +211,16 @@ def fast_check_infer(r: ExecutationRequest, competition_name: str, mode: str):
             assert file_tree.dir_stat(r.infer_path).file_count == 120
 
 
+
+
+
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser(description='Run test-phase evaluation pipeline')
     parser.add_argument('task_describe', help='任务描述 JSON 文件路径')
     parser.add_argument('gpu_id', help='指定使用的 GPU ID')
     parser.add_argument('submission_json', help='提交信息 JSON 文件路径')
+    parser.add_argument('--action', type=str, default=None, help='预处理动作')
     args = parser.parse_args()
 
     task_describe = args.task_describe
@@ -163,6 +243,8 @@ if __name__ == '__main__':
             break
     if not task_des:
         raise Exception('No describle files of ')
+    
+    competition_name = des["meta"]["competition"]
 
     paths = task_des['paths']
     input_dir = paths['input']
@@ -183,13 +265,24 @@ if __name__ == '__main__':
     else:
         s = {}
         status.save(s, state_json)
-    r.workplace = os.path.join(output_dir, str(r.uid))
 
     uid = str(r.uid)
     workplace = os.path.join(output_dir, uid)
+    r.workplace = workplace
+
     os.makedirs(workplace, exist_ok=True)
     # 复制json到workplace
     os.system(f'cp {submission_json} {r.rel_path("submission.json")}')
+    if 'MRIx2026' == competition_name:
+        handler = MRIx2026Handler(competition_name, submission_json)
+        handler.r = r
+        if args.action == 'check_score':
+            passed = handler.dedicate_check_score(r)
+            if not passed:
+                s = status.load(state_json)
+                s[uid] = {'status': status.DEBUGING}
+                status.save(s, state_json)
+            exit(0)
     if not is_latest:
         # 等文件复制完成再提示非latest，方便查看
         raise Exception('Only latest submission is allowed')
@@ -199,7 +292,6 @@ if __name__ == '__main__':
     current_status = info['status']
 
     print(f"*****{info}******")
-    competition_name = des["meta"]["competition"]
 
     # 预测阶段
     if current_status == status.UNKNOWN:
@@ -231,8 +323,12 @@ if __name__ == '__main__':
             score_cmrx2026(r)
         elif 'MRIx2026' == competition_name:
             score_mrix2026(r, mode, paths)
-            handler = MRIx2026Handler(workplace, submission_json)
-            handler._dedicate_check_score(r)
+            handler: MRIx2026Handler
+            check_passed = handler.dedicate_check_score(r)
+            if not check_passed:
+                s = status.load(state_json)
+                s[uid] = {'status': status.DEBUGING}
+                status.save(s, state_json)
         else:
             raise Exception(f'Unknown competition: {competition_name}')
 
