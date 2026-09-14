@@ -5,6 +5,11 @@ from competition import SubmissionHandler, ExecutationRequest
 
 
 class MRIx2026Handler(SubmissionHandler):
+    class TYPE:
+        Task1 = 'Task1'
+        Task2 = 'Task2'
+        Task3 = 'Task3'
+
     def __init__(self, workplace: str, submission_json: str) -> None:
         super().__init__('MRIx2026', workplace, submission_json)
         self.r = None
@@ -54,3 +59,44 @@ class MRIx2026Handler(SubmissionHandler):
         else:
             raise NotImplemented
         return True
+
+    def rank(self, task_type: str, results: list[dict]):
+        """
+        """
+        if task_type == self.TYPE.Task1:
+            """
+Per-metric aggregation: For each submission and each metric (nRMSE, SSIM, LPIPS, mean Dice overlap, and mean normalized volume consistency), compute the average metric value across all test cases.
+
+Per-metric ranking: Rank methods separately for each metric based on its mean performance:
+
+Lower is better: nRMSE, LPIPS
+
+Higher is better: SSIM, Dice overlap, Normalized volume consistency
+
+Overall ranking: For each method, sum its per-metric ranks to obtain a composite score. Algorithms with the lowest composite scores achieve the highest final rank.
+"""
+            pass
+        elif task_type == self.TYPE.Task2:
+            """
+Per-metric aggregation: For each metric, compute the average value across all test cases.
+
+Per-metric ranking: Rank methods separately for each metric based on its mean performance:
+
+Lower is better: nRMSE, LPIPS
+Higher is better: SSIM, Dice overlap, normalized volume consistency
+Overall ranking: Sum the per-metric ranks for each algorithm. Algorithms with the lowest composite scores achieve the highest final rank.
+            """
+            pass
+        elif task_type == self.TYPE.Task3:
+            """
+Per-metric aggregation: For each metric (nRMSE, SSIM, LPIPS), compute the average metric value across all test cases.
+
+Per-metric ranking: Rank methods separately for each metric:
+
+Lower is better: nRMSE, LPIPS
+Higher is better: SSIM
+Overall ranking: For each method, sum its per-metric ranks to obtain a composite score. Algorithms with the lowest composite scores achieve the highest final rank.
+            """
+            pass
+        else:
+            raise NotImplemented

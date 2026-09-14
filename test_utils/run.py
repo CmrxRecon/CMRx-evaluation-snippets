@@ -232,7 +232,7 @@ if __name__ == '__main__':
         elif 'MRIx2026' == competition_name:
             score_mrix2026(r, mode, paths)
             handler = MRIx2026Handler(workplace, submission_json)
-            handler._dedicate_check_score(r)
+            handler.score_check()
         else:
             raise Exception(f'Unknown competition: {competition_name}')
 
